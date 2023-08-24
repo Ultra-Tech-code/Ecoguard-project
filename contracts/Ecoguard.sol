@@ -112,8 +112,10 @@ contract Ecoguard is ReentrancyGuard, Pausable {
     function startAuction(uint256 tokenId, address _assetAddress, uint256 _buyOutPrice, uint256 auctionDuration) external {
         require(listed[tokenId][_assetAddress] == false, "NFT already listed");
         NFT storage nft = nfts[id];
+        require(_buyOutPrice > 0, "Invalid Amount");
         uint256 buyoutPrice = _buyOutPrice * (10**18);
         require(nft.available != true, "NFT already auction");
+        
 
         IERC721(_assetAddress).transferFrom(msg.sender, address(this), tokenId);
         nft.tokenId = tokenId;
